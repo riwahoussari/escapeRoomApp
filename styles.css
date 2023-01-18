@@ -1,0 +1,141 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+:root{
+    background-color: #9AC5FE;
+    background-color: #0d75fd;
+    background-color: #0250b6;
+    background-color: #00FFF7;
+    background-color: #712cf9;
+    background-color: #00cb00;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    background: rgb(43, 48, 53);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    --baseCol: #6c00ff;
+    font-family: sans-serif;
+}
+h1, #passLbl{
+    color: #00FFF7;
+    padding-bottom: 30px;
+}
+.lockBox
+{
+    width: 400px;
+    height: 600px;
+    border: 1px solid #00FFF7;
+    display: flex;
+    align-items: space-between;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.dot
+{
+    width: 10px;
+    height: 10px;
+    border: 1px solid #00FFF7;
+    margin: 40px;
+    border-radius: 50%;
+}
+
+.dot i
+{
+    pointer-events: none;
+    opacity: 0;
+}
+
+.dot.active
+{
+    transform: scale(0);
+    pointer-events: none;
+    border: none;
+    animation: pattern 0.25s cubic-bezier(0, 2.24,0.2,2.23)
+    forwards;
+}
+
+@keyframes pattern
+{
+    100%
+    {
+        background: var(--baseCol);
+        transform: scale(1);
+    }
+}
+
+.dotArea
+{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    left: -16px;
+    top: -16px;
+    cursor: pointer;
+}
+
+.lockBox svg
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+    fill: none;
+    stroke: var(--baseCol);
+}
+/*  */
+.unlocked{
+    flex-direction: column;
+    justify-content: space-around;
+}
+#playAudioBtn, #enterBtn{
+    display: none;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #712cf9;
+    color: white;
+    font-size: 2rem;
+    margin: 50px;
+}#playAudioBtn:hover, #enterBtn:hover{
+    background-color: #0250b6;
+}
+#form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 200px;
+}
+#passLbl{
+    font-size: 2rem;
+    display: none;
+}
+#passInput{
+    font-size: 3rem;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    display: none;
+}#passInput:focus{
+    outline: none;
+    border: 3px solid #712cf9;
+}
+
+img{
+    display: none;
+    width: 90vw;
+    height: 90vw;
+    margin-top: 5vw;
+}
