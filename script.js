@@ -1,120 +1,80 @@
-    var log=console.log;
-    function op(elem){return document.querySelector(elem)}
-    function opp(elem){return document.querySelectorAll(elem)}
+const correctCode = '432159131721222324201918141516121110678'
+const correctCode2 ="876101112161514181920242322211713951234"
+let enteredCode = ""
 
-    var lockBox=op('.lockBox');
-    for(var a=0; a< 24; a++){
-      lockBox.insertAdjacentHTML("afterbegin",`<div class="dot"><div class="dotArea" onmousedown="down(this)"><i>${a}</i></div></div>`)
+const dots = document.body.querySelectorAll('div div')
+const resetBtn = document.getElementById('reset')
+const enterPattern = document.getElementById('enterPattern')
+
+dots.forEach(dot => {
+    dot.addEventListener('click', ()=>{
+        if(!dot.classList.contains('clicked')){
+            dot.classList.add('clicked')
+            enteredCode += dot.textContent
+        }
+        if(enteredCode == correctCode.slice(0,enteredCode.length) ||
+           enteredCode == correctCode2.slice(0, enteredCode.length)){
+            return
+        }else{
+            addClassIncorrect()
+        }
+    })
+})
+enterPattern.addEventListener('click' , ()=>{
+    if(enteredCode==correctCode||enteredCode==correctCode2){
+        patternUnlocked()
+    }else{
+        addClassIncorrect()
     }
+})
+function addClassIncorrect(){
+    reset()
+    dots.forEach(dot => dot.classList.add('incorrect'))
+    window.addEventListener('animationend',()=>{
+        dots.forEach(dot=>dot.classList.remove('incorrect'))
+    })
+}
+function reset(){
+    dots.forEach(dot =>{
+        dot.classList.remove('clicked')
+        enteredCode = ""
+    })
+}
 
-    var startDot,
-    svg=op("svg"),
-    dots=opp(".dot"),
-    lineData="M",
-    tempLineData,
-    svgPath=op('svg path'),
-    inputData="",
-    correctData="20212223191511732104561098121314181716",
-    correctDataReverse="16171814131289106540123711151923222120";
+function patternUnlocked(){
+    const lockBox = document.getElementById('lockbox')
+    const patternh1= document.getElementById('patternh1')
+    patternh1.style.display = 'none'
+    enterPattern.style.display = 'none'
+    lockBox.style.display = 'none'
 
-    function end(){
-      document.body.style.setProperty('--baseCol',(inputData==correctData||inputData==correctDataReverse)?"#0f0":"#f00");
-      if(inputData==correctData||inputData==correctDataReverse){unlocked()}
-      
-      startDot=undefined;
-      lineData="M";
-      inputData="";
-      tempLineData=undefined;
-
-      setTimeout(()=>{
-        opp('.dot.active').forEach(val=>{val.classList.remove('active')})
-        svgPath.setAttribute("d",'');
-        document.body.style.setProperty('--baseCol',"#712cf9");
-      },500)
-    }
-
-    function down(elem){
-      startDot=elem;
-      lockBox.addEventListener('mousemove',moving)
-      addEvToMouseEnter();
-      lineData+=`${startDot.parentElement.offsetLeft +5},${startDot.parentElement.offsetTop +5}`;
-      makeLine();
-      startDot.classList.add("active")
-    }
-    document.onmouseup=function (){
-      lockBox.removeEventListener('mousemove',moving)
-      removeEvToMouseEnter();
-      tempLineData=''
-      updateLine();
-      end(startDot,tempLineData,lineData)
-    }
-    function moving(e){
-      makeLineWhileMoving(e.clientX,e.clientY)
-    }
-    function makeLineWhileMoving(x,y){
-      var x=Math.floor(x - lockBox.getBoundingClientRect().left);
-      var y=Math.floor(y - lockBox.getBoundingClientRect().top);
-
-      tempLineData=" L"+x+','+y;
-
-      updateLine()
-    }
-
-    function makeLine(e=startDot){
-      e.target=startDot;
-      var dot=e.target.parentElement;
-      dot.classList.add('active');
-      var x=dot.getBoundingClientRect().left,
-      y=dot.getBoundingClientRect().top;
-      inputData+=dot.innerText;
-
-      makeLineWhileMoving(x,y)
-      lineData+=tempLineData;
-    }
-
-    function addEvToMouseEnter(){
-      opp(".dotArea").forEach(val=>{
-        val.addEventListener("mouseenter",makeLine);
-      })
-    }
-    function removeEvToMouseEnter(){
-      opp(".dotArea").forEach(val=>{
-        val.removeEventListener("mouseenter",makeLine);
-      })
-    }
-    function updateLine(){
-      svgPath.setAttribute("d",lineData+tempLineData);
-    }
-
-    function unlocked(){
-        const header = document.body.querySelector('h1')
-        document.body.removeChild(lockBox)
-        document.body.removeChild(header)
-        document.body.classList.add('unlocked')
-        const playAudioBtn = document.getElementById('playAudioBtn')
-        const passLbl = document.getElementById('passLbl')
-        const passInput = document.getElementById('passInput')
-        const enterBtn = document.getElementById('enterBtn')
-        playAudioBtn.style.display = "unset"
-        passLbl.style.display = "unset"
-        passInput.style.display = "unset"
-        enterBtn.style.display = "unset"
-        const audio = new Audio("er-audio.mp3")
+    const playAudioBtn = document.getElementById('playAudioBtn')
+    const passLbl = document.getElementById('passLbl')
+    const passInput = document.getElementById('passInput')
+    const enterPass = document.getElementById('enterPass')
+    playAudioBtn.style.display = "unset"
+    passLbl.style.display = "unset"
+    passInput.style.display = "unset"
+    enterPass.style.display = "unset"
+    const audio = new Audio("er-audio.mp3")
+    audio.play()
+    playAudioBtn.addEventListener('click' , ()=> {
         audio.play()
-        playAudioBtn.addEventListener('click' , ()=> {
-            audio.play()
-        })
-        enterBtn.addEventListener('click', ()=>{
-          if(passInput.value.toLowerCase() == "crce"){
+    })
+    enterPass.addEventListener('click', ()=>{
+        if(passInput.value.toLowerCase() == "crce"){
             document.body.removeChild(playAudioBtn)
-            const form = document.getElementById('form')
-            document.body.removeChild(form)
-
+            document.body.removeChild(passLbl)
+            document.body.removeChild(passInput)
+            document.body.removeChild(enterPass)
             const img = document.querySelector('img')
             img.style.display = 'unset'
-          }else{
+        }else{
             passInput.value = ""
-            passInput.style.border = "1px solid red"
-          }
-        })
-    }
+            passInput.classList.add('inputAnimation')
+            window.addEventListener('animationend',()=>{
+                passInput.classList.remove('inputAnimation')
+            })
+        }
+    })
+}
