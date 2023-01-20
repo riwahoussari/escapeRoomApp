@@ -27,14 +27,14 @@ body{
 #lockbox{
     display: flex;
     flex-wrap: wrap;
-    width: 483px;
-    height: 723px;
+    width: 523px;
+    height: 783px;
     border: 1px solid var(--turquoise);
 }
 .dot{
     font-size: 0rem;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border: 1px solid var(--turquoise);
     border-radius: 100%;
     margin: 50px;
@@ -93,5 +93,5 @@ img{
     display: none;
     width: 90vw;
     height: 90vw;
-    margin-top: calc((100vh - 90vw)/2);
+    
 }

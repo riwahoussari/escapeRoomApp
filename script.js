@@ -69,6 +69,7 @@ function patternUnlocked(){
             document.body.removeChild(enterPass)
             const img = document.querySelector('img')
             img.style.display = 'unset'
+            document.body.style.backgroundColor = 'white'
         }else{
             passInput.value = ""
             passInput.classList.add('inputAnimation')
